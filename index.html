@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF DRAGON - SIMPLE PANEL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a0f, #1a1a2e);
+            color: white;
+            min-height: 100vh;
+            padding: 15px;
+        }
+        
+        .container {
+            max-width: 450px;
+            margin: 0 auto;
+        }
+        
+        /* HEADER */
+        .header {
+            background: rgba(20, 20, 30, 0.95);
+            border-radius: 30px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 2px solid #ff00ff;
+            box-shadow: 0 0 30px #ff00ff;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ff00ff, #00ffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        /* STATUS BAR */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(20, 20, 30, 0.95);
+            border-radius: 50px;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            border: 1px solid #ff00ff;
+        }
+        
+        .status-led {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff3333;
+            box-shadow: 0 0 10px #ff3333;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        
+        .status-led.aktif {
+            background: #33ff33;
+            box-shadow: 0 0 15px #33ff33;
+        }
+        
+        .master-btn {
+            background: linear-gradient(135deg, #ff00ff, #00ffff);
+            border: none;
+            border-radius: 30px;
+            padding: 8px 20px;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .master-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #ff00ff;
+        }
+        
+        /* PANEL CARD */
+        .panel {
+            background: rgba(20, 20, 30, 0.95);
+            border-radius: 30px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #ff00ff;
+            box-shadow: 0 0 20px #ff00ff;
+        }
+        
+        .panel-title {
+            color: #00ffff;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #ff00ff;
+            padding-bottom: 10px;
+        }
+        
+        /* FEATURE ROW */
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .row:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .feature-icon {
+            font-size: 1.3rem;
+            width: 30px;
+        }
+        
+        /* TOGGLE SWITCH */
+        .toggle {
+            width: 55px;
+            height: 28px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 28px;
+            position: relative;
+            cursor: pointer;
+            border: 1px solid #ff00ff;
+            transition: 0.3s;
+        }
+        
+        .toggle.aktif {
+            background: linear-gradient(135deg, #ff00ff, #00ffff);
+        }
+        
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            top: 1px;
+            left: 2px;
+            transition: 0.3s;
+        }
+        
+        .toggle.aktif::after {
+            left: 29px;
+        }
+        
+        /* SELECT & SLIDER */
+        select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid #ff00ff;
+            border-radius: 15px;
+            color: white;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+        
+        .slider-container {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            color: #aaa;
+            margin-bottom: 5px;
+        }
+        
+        .slider-value {
+            color: #00ffff;
+            font-weight: bold;
+        }
+        
+        input[type=range] {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 6px;
+            -webkit-appearance: none;
+        }
+        
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #ff00ff, #00ffff);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+        
+        /* BUTTONS */
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #ff00ff, #00ffff);
+            color: black;
+            box-shadow: 0 0 20px #ff00ff;
+        }
+        
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px #ff00ff;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #ff3333, #ff0066);
+            color: white;
+        }
+        
+        /* NOTIFICATION */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(20,20,30,0.95);
+            border-left: 5px solid #00ffff;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 0 20px #00ffff;
+            transform: translateX(400px);
+            transition: 0.3s;
+            z-index: 999;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #ff00ff;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>DRAGON FF</h1>
+            <div style="color: #00ffff; margin-top: 5px;">SIMPLE EDITION</div>
+        </div>
+
+        <!-- STATUS BAR -->
+        <div class="status-bar">
+            <div>
+                <span class="status-led" id="statusLed"></span>
+                <span id="statusText">PANEL NONAKTIF</span>
+            </div>
+            <button class="master-btn" onclick="toggleMaster()">MASTER ON/OFF</button>
+        </div>
+
+        <!-- AIMBOT PANEL -->
+        <div class="panel">
+            <div class="panel-title">
+                <span>🎯</span> AIMBOT
+            </div>
+            
+            <div class="row">
+                <div class="feature-name">
+                    <span class="feature-icon">⚡</span>
+                    <span>Enable Aimbot</span>
+                </div>
+                <div class="toggle" id="aimbotToggle" onclick="toggleAimbot()"></div>
+            </div>
+            
+            <select id="aimbotMode" onchange="updateAimbotMode()" style="display: none;">
+                <option value="HEAD">HEADSHOT MODE</option>
+                <option value="BODY">BODY SHOT MODE</option>
+            </select>
+            
+            <div class="slider-container" id="fovContainer" style="display: none;">
+                <div class="slider-header">
+                    <span>FOV RANGE</span>
+                    <span class="slider-value" id="fovValue">180°</span>
+                </div>
+                <input type="range" id="fovSlider" min="0" max="360" value="180" oninput="updateFOV()">
+            </div>
+        </div>
+
+        <!-- ESP PANEL -->
+        <div class="panel">
+            <div class="panel-title">
+                <span>👁️</span> ESP / WALLHACK
+            </div>
+            
+            <div class="row">
+                <div class="feature-name">
+                    <span class="feature-icon">👁️</span>
+                    <span>Enable ESP</span>
+                </div>
+                <div class="toggle" id="espToggle" onclick="toggleESP()"></div>
+            </div>
+            
+            <div class="row" id="boxContainer" style="display: none;">
+                <div class="feature-name">
+                    <span class="feature-icon">📦</span>
+                    <span>Show Box</span>
+                </div>
+                <div class="toggle" id="boxToggle" onclick="toggleBox()"></div>
+            </div>
+            
+            <div class="row" id="nameContainer" style="display: none;">
+                <div class="feature-name">
+                    <span class="feature-icon">📝</span>
+                    <span>Show Name</span>
+                </div>
+                <div class="toggle" id="nameToggle" onclick="toggleName()"></div>
+            </div>
+            
+            <div class="row" id="healthContainer" style="display: none;">
+                <div class="feature-name">
+                    <span class="feature-icon">❤️</span>
+                    <span>Show Health</span>
+                </div>
+                <div class="toggle" id="healthToggle" onclick="toggleHealth()"></div>
+            </div>
+        </div>
+
+        <!-- MAGIC BULLET PANEL -->
+        <div class="panel">
+            <div class="panel-title">
+                <span>🔫</span> MAGIC BULLET
+            </div>
+            
+            <div class="row">
+                <div class="feature-name">
+                    <span class="feature-icon">✨</span>
+                    <span>Enable Magic</span>
+                </div>
+                <div class="toggle" id="magicToggle" onclick="toggleMagic()"></div>
+            </div>
+            
+            <div class="row" id="hsContainer" style="display: none;">
+                <div class="feature-name">
+                    <span class="feature-icon">💀</span>
+                    <span>Headshot Only</span>
+                </div>
+                <div class="toggle" id="hsToggle" onclick="toggleHS()"></div>
+            </div>
+            
+            <div class="row" id="recoilContainer" style="display: none;">
+                <div class="feature-name">
+                    <span class="feature-icon">🎯</span>
+                    <span>No Recoil</span>
+                </div>
+                <div class="toggle" id="recoilToggle" onclick="toggleRecoil()"></div>
+            </div>
+            
+            <div class="row" id="spreadContainer" style="display: none;">
+                <div class="feature-name">
+                    <span class="feature-icon">📊</span>
+                    <span>No Spread</span>
+                </div>
+                <div class="toggle" id="spreadToggle" onclick="toggleSpread()"></div>
+            </div>
+        </div>
+
+        <!-- PLAYER MODS PANEL (SIMPLE) -->
+        <div class="panel">
+            <div class="panel-title">
+                <span>🦸</span> PLAYER MODS
+            </div>
+            
+            <div class="row">
+                <div class="feature-name">
+                    <span class="feature-icon">⚡</span>
+                    <span>Speed Hack</span>
+                </div>
+                <div class="toggle" id="speedToggle" onclick="toggleSpeed()"></div>
+            </div>
+            
+            <div class="slider-container" id="speedContainer" style="display: none;">
+                <div class="slider-header">
+                    <span>Speed Multiplier</span>
+                    <span class="slider-value" id="speedValue">2.0x</span>
+                </div>
+                <input type="range" id="speedSlider" min="1" max="5" value="2" step="0.5" oninput="updateSpeed()">
+            </div>
+        </div>
+
+        <!-- BUTTONS -->
+        <button class="btn btn-primary" onclick="applySettings()">🚀 APPLY SETTINGS</button>
+        <button class="btn btn-danger" onclick="resetSettings()" style="margin-top: 10px;">⟲ RESET</button>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            © 2024 DRAGON PANEL | XYRICS
+        </div>
+    </div>
+
+    <!-- NOTIFICATION -->
+    <div class="notification" id="notification">
+        <div style="color: #00ffff; font-weight: bold; margin-bottom: 5px;" id="notifTitle">INFO</div>
+        <div style="color: white; font-size: 0.9rem;" id="notifMessage"></div>
+    </div>
+
+    <script>
+        // ==================== STATE ====================
+        let masterOn = false;
+        let settings = {
+            aimbot: false, aimbotMode: 'HEAD', fov: 180,
+            esp: false, box: false, name: false, health: false,
+            magic: false, hs: false, recoil: false, spread: false,
+            speed: false, speedVal: 2
+        };
+
+        // DOM Elements
+        const toggles = {
+            aimbot: document.getElementById('aimbotToggle'),
+            esp: document.getElementById('espToggle'),
+            magic: document.getElementById('magicToggle'),
+            speed: document.getElementById('speedToggle'),
+            box: document.getElementById('boxToggle'),
+            name: document.getElementById('nameToggle'),
+            health: document.getElementById('healthToggle'),
+            hs: document.getElementById('hsToggle'),
+            recoil: document.getElementById('recoilToggle'),
+            spread: document.getElementById('spreadToggle')
+        };
+
+        const containers = {
+            aimbotMode: document.getElementById('aimbotMode'),
+            fov: document.getElementById('fovContainer'),
+            box: document.getElementById('boxContainer'),
+            name: document.getElementById('nameContainer'),
+            health: document.getElementById('healthContainer'),
+            hs: document.getElementById('hsContainer'),
+            recoil: document.getElementById('recoilContainer'),
+            spread: document.getElementById('spreadContainer'),
+            speed: document.getElementById('speedContainer')
+        };
+
+        // ==================== NOTIFICATION ====================
+        function showNotif(title, msg) {
+            document.getElementById('notifTitle').innerText = title;
+            document.getElementById('notifMessage').innerText = msg;
+            document.getElementById('notification').classList.add('show');
+            setTimeout(() => {
+                document.getElementById('notification').classList.remove('show');
+            }, 2000);
+        }
+
+        // ==================== MASTER SWITCH ====================
+        function toggleMaster() {
+            masterOn = !masterOn;
+            const led = document.getElementById('statusLed');
+            const text = document.getElementById('statusText');
+            
+            if (masterOn) {
+                led.classList.add('aktif');
+                text.innerText = 'PANEL AKTIF';
+                showNotif('✅ MASTER ON', 'Panel siap digunakan');
+            } else {
+                led.classList.remove('aktif');
+                text.innerText = 'PANEL NONAKTIF';
+                showNotif('❌ MASTER OFF', 'Panel dimatikan');
+            }
+        }
+
+        // ==================== TOGGLE FUNCTIONS ====================
+        function toggleAimbot() {
+            if (!masterOn) { showNotif('⚠️ ERROR', 'Master Switch ON dulu!'); return; }
+            settings.aimbot = !settings.aimbot;
+            toggles.aimbot.className = settings.aimbot ? 'toggle aktif' : 'toggle';
+            containers.aimbotMode.style.display = settings.aimbot ? 'block' : 'none';
+            containers.fov.style.display = settings.aimbot ? 'block' : 'none';
+        }
+
+        function toggleESP() {
+            if (!masterOn) { showNotif('⚠️ ERROR', 'Master Switch ON dulu!'); return; }
+            settings.esp = !settings.esp;
+            toggles.esp.className = settings.esp ? 'toggle aktif' : 'toggle';
+            containers.box.style.display = settings.esp ? 'flex' : 'none';
+            containers.name.style.display = settings.esp ? 'flex' : 'none';
+            containers.health.style.display = settings.esp ? 'flex' : 'none';
+        }
+
+        function toggleMagic() {
+            if (!masterOn) { showNotif('⚠️ ERROR', 'Master Switch ON dulu!'); return; }
+            settings.magic = !settings.magic;
+            toggles.magic.className = settings.magic ? 'toggle aktif' : 'toggle';
+            containers.hs.style.display = settings.magic ? 'flex' : 'none';
+            containers.recoil.style.display = settings.magic ? 'flex' : 'none';
+            containers.spread.style.display = settings.magic ? 'flex' : 'none';
+        }
+
+        function toggleSpeed() {
+            if (!masterOn) { showNotif('⚠️ ERROR', 'Master Switch ON dulu!'); return; }
+            settings.speed = !settings.speed;
+            toggles.speed.className = settings.speed ? 'toggle aktif' : 'toggle';
+            containers.speed.style.display = settings.speed ? 'block' : 'none';
+        }
+
+        // Sub toggles
+        function toggleBox() { settings.box = !settings.box; toggles.box.className = settings.box ? 'toggle aktif' : 'toggle'; }
+        function toggleName() { settings.name = !settings.name; toggles.name.className = settings.name ? 'toggle aktif' : 'toggle'; }
+        function toggleHealth() { settings.health = !settings.health; toggles.health.className = settings.health ? 'toggle aktif' : 'toggle'; }
+        function toggleHS() { settings.hs = !settings.hs; toggles.hs.className = settings.hs ? 'toggle aktif' : 'toggle'; }
+        function toggleRecoil() { settings.recoil = !settings.recoil; toggles.recoil.className = settings.recoil ? 'toggle aktif' : 'toggle'; }
+        function toggleSpread() { settings.spread = !settings.spread; toggles.spread.className = settings.spread ? 'toggle aktif' : 'toggle'; }
+
+        // Update functions
+        function updateAimbotMode() { settings.aimbotMode = document.getElementById('aimbotMode').value; }
+        function updateFOV() { settings.fov = document.getElementById('fovSlider').value; document.getElementById('fovValue').innerText = settings.fov + '°'; }
+        function updateSpeed() { settings.speedVal = document.getElementById('speedSlider').value; document.getElementById('speedValue').innerText = settings.speedVal + 'x'; }
+
+        // ==================== APPLY SETTINGS ====================
+        function applySettings() {
+            if (!masterOn) {
+                showNotif('⚠️ GOBLOK!', 'Master Switch nyalakan dulu!');
+                return;
+            }
+            
+            let msg = '✅ SETTINGS APPLIED:\n';
+            msg += `Aimbot: ${settings.aimbot ? 'ON' : 'OFF'} (${settings.aimbotMode})\n`;
+            msg += `ESP: ${settings.esp ? 'ON' : 'OFF'}\n`;
+            msg += `Magic: ${settings.magic ? 'ON' : 'OFF'}\n`;
+            msg += `Speed: ${settings.speed ? 'ON' : 'OFF'} (${settings.speedVal}x)`;
+            
+            alert(msg);
+ 
